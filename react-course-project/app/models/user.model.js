@@ -1,34 +1,17 @@
 module.exports = mongoose => {
-    var schema = mongoose.Schema({
-        firstName: {
-            type: String,
-        },
-        secondName: {
-            type: String,
-        },
-        userName: {
-            type: String,
-            required: true,
-            unique: true
-        },
-        email: {
-            type: String,
-            required: true,
-            unique: true
-        },
-        password: {
-            type: String,
-            required: true
-        },
-        isAdmin: {
-            type: Boolean,
-            required: true,
-            defualt: false
-        },
-    }, {
-        timestamps: true
+  var schema =
+    mongoose.Schema({
+      username: String,
+      email: String,
+      password: String,
+      roles: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Role"
+        }
+      ]
     });
 
-    const User = mongoose.model("user", schema);
+    const User = mongoose.model("users", schema);
     return User;
-};
+  };

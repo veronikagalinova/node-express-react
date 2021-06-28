@@ -1,3 +1,6 @@
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema;
+
 module.exports = mongoose => {
   var schema =
     mongoose.Schema({
@@ -5,8 +8,20 @@ module.exports = mongoose => {
       description: String,
       destionation: String,
       published: Boolean,
-      authorId: Number,
-      commentId: Number
+      postedBy: {
+        type: ObjectId,
+        ref: "User",
+      },
+      body: {
+        type: {},
+        required: true,
+        min: 2,
+        max: 2000000,
+      },
+      photo: {
+        data: Buffer,
+        contentType: String,
+      }
     }, {
       timestamps: true
     });
