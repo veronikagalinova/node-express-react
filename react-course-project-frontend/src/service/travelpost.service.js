@@ -2,7 +2,7 @@ import http from "../http-common";
 
 class TravelPostDataService {
     getAll() {
-      return http.get("/travelposts");
+      return http.get("http://localhost:8081/api/travelposts");
     }
   
     get(id) {

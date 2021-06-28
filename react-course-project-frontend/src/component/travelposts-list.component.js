@@ -8,13 +8,13 @@ export default class TravelPostsList extends Component {
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
     this.retrievetravelPosts = this.retrieveTravelPosts.bind(this);
     this.refreshList = this.refreshList.bind(this);
-    this.setActiveTravelPosts = this.setActiveTravelPosts.bind(this);
+    this.setActiveTravelPost = this.setActiveTravelPost.bind(this);
     this.removeAllTravelPosts = this.removeAllTravelPosts.bind(this);
     this.searchTitle = this.searchTitle.bind(this);
 
     this.state = {
       travelPosts: [],
-      currentTravelPos: null,
+      currentTravelPost: null,
       currentIndex: -1,
       searchTitle: ""
     };
@@ -32,8 +32,10 @@ export default class TravelPostsList extends Component {
     });
   }
   retrieveTravelPosts() {
+    console.log("retrieveTravelPosts")
     TravelPostDataService.getAll()
       .then(response => {
+        console.log(response)
         this.setState({
           travelPosts: response.data
         });
@@ -52,7 +54,7 @@ export default class TravelPostsList extends Component {
     });
   }
 
-  setActiveTravelPosts(travelPost, index) {
+  setActiveTravelPost(travelPost, index) {
     this.setState({
       currentTravelPost: travelPost,
       currentIndex: index
@@ -118,7 +120,7 @@ export default class TravelPostsList extends Component {
                     "list-group-item " +
                     (index === currentIndex ? "active" : "")
                   }
-                  onClick={() => this.setActivetravelPost(travelPost, index)}
+                  onClick={() => this.setActiveTravelPost(travelPost, index)}
                   key={index}
                 >
                   {travelPost.title}
