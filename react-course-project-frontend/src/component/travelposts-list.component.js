@@ -160,7 +160,7 @@ export default class TravelPostsList extends Component {
 
               <Link
                 to={"/travelPosts/" + currentTravelPost.id}
-                className="badge badge-warning"
+                className="btn btn-warning"
                 >
                 Edit
               </Link>

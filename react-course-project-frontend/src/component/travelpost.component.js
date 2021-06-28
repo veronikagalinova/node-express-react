@@ -51,6 +51,7 @@ this.setState(prevState => ({
 }
 
 getTravelPost(id) {
+
 TravelPostDataService.get(id)
   .then(response => {
     this.setState({
@@ -113,13 +114,13 @@ deleteTravelPost() {
   }
 
   render() {
-    const { currentTutorial } = this.state;
+    const { currentTravelPost } = this.state;
 
     return (
     <div>
-        {currentTutorial ? (
+        {currentTravelPost ? (
           <div className="edit-form">
-            <h4>Tutorial</h4>
+            <h4>Travel Post</h4>
             <form>
               <div className="form-group">
                 <label htmlFor="title">Title</label>
@@ -127,7 +128,7 @@ deleteTravelPost() {
                   type="text"
                   className="form-control"
                   id="title"
-                  value={currentTutorial.title}
+                  value={currentTravelPost.title}
                   onChange={this.onChangeTitle}
                 />
               </div>
@@ -137,7 +138,7 @@ deleteTravelPost() {
                   type="text"
                   className="form-control"
                   id="description"
-                  value={currentTutorial.description}
+                  value={currentTravelPost.description}
                   onChange={this.onChangeDescription}
                 />
               </div>
@@ -146,20 +147,20 @@ deleteTravelPost() {
                 <label>
                   <strong>Status:</strong>
                 </label>
-                {currentTutorial.published ? "Published" : "Pending"}
+                {currentTravelPost.published ? "Published" : "Pending"}
               </div>
             </form>
 
-            {currentTutorial.published ? (
+            {currentTravelPost.published ? (
               <button
-                className="badge badge-primary mr-2"
+                className="btn btn-outline-primary btn-sm"
                 onClick={() => this.updatePublished(false)}
               >
                 UnPublish
               </button>
             ) : (
               <button
-                className="badge badge-primary mr-2"
+                className="btn btn-outline-primary btn-sm"
                 onClick={() => this.updatePublished(true)}
               >
                 Publish
@@ -167,16 +168,16 @@ deleteTravelPost() {
             )}
 
             <button
-              className="badge badge-danger mr-2"
-              onClick={this.deleteTutorial}
+              className="btn btn-outline-danger btn-sm"
+              onClick={this.deleteTravelPost}
             >
               Delete
             </button>
 
             <button
               type="submit"
-              className="badge badge-success"
-              onClick={this.updateTutorial}
+              className="btn btn-outline-warning btn-sm"
+              onClick={this.updateTravelPost}
             >
               Update
             </button>
@@ -185,7 +186,7 @@ deleteTravelPost() {
         ) : (
           <div>
             <br />
-            <p>Please click on a Tutorial...</p>
+            <p>Please click on a TravelPost...</p>
           </div>
         )}
       </div>

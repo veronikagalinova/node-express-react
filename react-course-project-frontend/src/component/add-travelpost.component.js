@@ -16,8 +16,8 @@ export default class AddTravelPost extends Component {
             title: "",
             description: "",
             published: false,
-            authorId: null,
-            comments: [],
+            // authorId: null,
+            // comments: [],
             submitted: false
         };
     }
@@ -41,7 +41,11 @@ export default class AddTravelPost extends Component {
     saveTravelPost() {
         var data = {
             title: this.state.title,
-            description: this.state.description
+            description: this.state.description,
+            authorId: -1,//"set author",
+            commentId: -1, //"add comments",
+            published: true,
+            destination: "add"
         };
 
         TravelPostDataService.create(data)
@@ -78,7 +82,7 @@ export default class AddTravelPost extends Component {
               {this.state.submitted ? (
                 <div>
                   <h4>You submitted successfully!</h4>
-                  <button className="btn btn-success" onClick={this.newTutorial}>
+                  <button className="btn btn-success" onClick={this.newTravelPost}>
                     Add
                   </button>
                 </div>
@@ -109,7 +113,7 @@ export default class AddTravelPost extends Component {
               />
             </div>
 
-            <button onClick={this.saveTutorial} className="btn btn-success">
+            <button onClick={this.saveTravelPost} className="btn btn-success">
               Submit
             </button>
           </div>

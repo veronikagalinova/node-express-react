@@ -25,8 +25,8 @@ class TravelPostDataService {
       return http.delete(`/travelposts`);
     }
   
-    findByDestination(dest) {
-      return http.get(`/travelposts?destination=${dest}`);
+    findByTitle(title) {
+      return http.get(`/travelposts?title=${title}`);
     }
   }
   

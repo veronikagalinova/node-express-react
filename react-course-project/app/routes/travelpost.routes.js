@@ -9,9 +9,6 @@ module.exports = app => {
     // Retrieve all TravelPost
     router.get("/", travelposts.findAll);
   
-    // Retrieve all TravelPostS by destination
-    router.get("/:destination", travelposts.findAllByDestination);
-  
     // Retrieve a single TravelPost with id
     router.get("/:id", travelposts.findOne);
   

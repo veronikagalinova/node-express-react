@@ -145,3 +145,18 @@ exports.findAllByDestination = (req, res) => {
       });
     });
 };
+
+// Find all TravelPost for destination - TEST
+exports.findAllTitle = (req, res) => {
+  const title = req.params.title;
+  TravelPost.find({ title: title })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving TravelPosts for title " + title 
+    });
+  });
+};
