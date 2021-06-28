@@ -4,7 +4,7 @@ const TravelPost = db.travelposts;
 // Create and Save a new TravelPost
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title || !req.body.destination || !req.body.description) {
+  if (!req.body.title || !req.body.description) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
@@ -15,8 +15,8 @@ exports.create = (req, res) => {
     description: req.body.description,
     destination: req.body.destination,
     published: req.body.published ? req.body.published : false,
-    authorId: req.body.authorId,
-    commentId: req.body.commentId ? req.body.commentId : null
+    body: req.body.body,
+    postedBy: req.body.postedBy
   });
 
   // Save TravelPost in the database

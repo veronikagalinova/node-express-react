@@ -8,6 +8,8 @@ export default class AddTravelPost extends Component {
         super(props);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.onChangeBody = this.onChangeBody.bind(this);
+
         this.saveTravelPost = this.saveTravelPost.bind(this);
         this.newTravelPost = this.newTravelPost.bind(this);
 
@@ -16,15 +18,12 @@ export default class AddTravelPost extends Component {
             title: "",
             description: "",
             published: false,
+            body: "",
             // authorId: null,
             // comments: [],
             submitted: false
         };
     }
-
-    /*
-    Because there are 2 fields, so we create 2 functions to track the values of the input and set that state for changes. 
-    */
 
     onChangeTitle(e) {
         this.setState({
@@ -38,14 +37,18 @@ export default class AddTravelPost extends Component {
         });
     }
 
+    onChangeBody(e) {
+      this.setState({
+        body: e.target.value
+    });
+    }
+
     saveTravelPost() {
         var data = {
             title: this.state.title,
             description: this.state.description,
-            authorId: -1,//"set author",
-            commentId: -1, //"add comments",
             published: true,
-            destination: "add"
+            body: this.state.body
         };
 
         TravelPostDataService.create(data)
@@ -55,7 +58,7 @@ export default class AddTravelPost extends Component {
                     title: response.data.title,
                     description: response.data.description,
                     published: response.data.published,
-
+                    body: response.data.body,
                     submitted: true
                 });
                 console.log(response.data);
@@ -71,7 +74,7 @@ export default class AddTravelPost extends Component {
             title: "",
             description: "",
             published: false,
-
+            body: "",
             submitted: false
         });
     }
@@ -112,6 +115,19 @@ export default class AddTravelPost extends Component {
                 name="description"
               />
             </div>
+
+            <div className="form-group">
+                  <label htmlFor="body">Body</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="body"
+                    required
+                    value={this.state.body}
+                    onChange={this.onChangeBody}
+                    name="title"
+                  />
+                  </div>
 
             <button onClick={this.saveTravelPost} className="btn btn-success">
               Submit

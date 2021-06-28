@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import React, {
+  Component
+} from "react";
 import TravelPostDataService from "../service/travelpost.service";
 
 export default class TravelPost extends Component {
@@ -6,6 +8,7 @@ export default class TravelPost extends Component {
     super(props);
     this.onChangeTitle = this.onChangeTitle.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.onChangeBody = this.onChangeBody.bind(this);
     this.getTravelPost = this.getTravelPost.bind(this);
     this.updatePublished = this.updatePublished.bind(this);
     this.updateTravelPost = this.updateTravelPost.bind(this);
@@ -16,7 +19,8 @@ export default class TravelPost extends Component {
         id: null,
         title: "",
         description: "",
-        published: false
+        published: false,
+        body: ""
       },
       message: ""
     };
@@ -29,80 +33,91 @@ export default class TravelPost extends Component {
   onChangeTitle(e) {
     const title = e.target.value;
 
-    this.setState(function(prevState) {
+    this.setState(function (prevState) {
       return {
         currentTravelPost: {
           ...prevState.currentTravelPost,
           title: title
         }
-    };
-});
-}
-
-onChangeDescription(e) {
-const description = e.target.value;
-
-this.setState(prevState => ({
-  currentTravelPost: {
-    ...prevState.currentTravelPost,
-    description: description
+      };
+    });
   }
-}));
-}
 
-getTravelPost(id) {
+  onChangeDescription(e) {
+    const description = e.target.value;
 
-TravelPostDataService.get(id)
-  .then(response => {
-    this.setState({
-      currentTravelPost: response.data
-    });
-    console.log(response.data);
-  })
-  .catch(e => {
-    console.log(e);
-});
-}
+    this.setState(prevState => ({
+      currentTravelPost: {
+        ...prevState.currentTravelPost,
+        description: description
+      }
+    }));
+  }
 
-updatePublished(status) {
-  var data = {
-    id: this.state.currentTravelPost.id,
-    title: this.state.currentTravelPost.title,
-    description: this.state.currentTravelPost.description,
-    published: status
-  };
+  onChangeBody(e) {
+    const body = e.target.body;
 
-  TravelPostDataService.update(this.state.currentTravelPost.id, data)
-    .then(response => {
-      this.setState(prevState => ({
-        currentTravelPost: {
-          ...prevState.currentTravelPost,
-          published: status
-        }
-      }));
-      console.log(response.data);
-    })
-    .catch(e => {
-      console.log(e);
-    });
-}
+    this.setState(prevState => ({
+      currentTravelPost: {
+        ...prevState.currentTravelPost,
+        body: body
+      }
+    }));
+  }
 
-updateTravelPost() {
-  TravelPostDataService.update(
-    this.state.currentTravelPost.id,
-    this.state.currentTravelPost
-  )
-    .then(response => {
-      console.log(response.data);
-      this.setState({
-        message: "The TravelPost was updated successfully!"
+  getTravelPost(id) {
+
+    TravelPostDataService.get(id)
+      .then(response => {
+        this.setState({
+          currentTravelPost: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
       });
-    })
-    .catch(e => {
-      console.log(e);
-    });
-}
-deleteTravelPost() {    
+  }
+
+  updatePublished(status) {
+    var data = {
+      id: this.state.currentTravelPost.id,
+      title: this.state.currentTravelPost.title,
+      description: this.state.currentTravelPost.description,
+      published: status
+    };
+
+    TravelPostDataService.update(this.state.currentTravelPost.id, data)
+      .then(response => {
+        this.setState(prevState => ({
+          currentTravelPost: {
+            ...prevState.currentTravelPost,
+            published: status
+          }
+        }));
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  updateTravelPost() {
+    TravelPostDataService.update(
+        this.state.currentTravelPost.id,
+        this.state.currentTravelPost
+      )
+      .then(response => {
+        console.log(response.data);
+        this.setState({
+          message: "The TravelPost was updated successfully!"
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+  deleteTravelPost() {
     TravelPostDataService.delete(this.state.currentTravelPost.id)
       .then(response => {
         console.log(response.data);
@@ -114,82 +129,117 @@ deleteTravelPost() {
   }
 
   render() {
-    const { currentTravelPost } = this.state;
+    const {
+      currentTravelPost
+    } = this.state;
 
-    return (
-    <div>
-        {currentTravelPost ? (
-          <div className="edit-form">
-            <h4>Travel Post</h4>
-            <form>
-              <div className="form-group">
-                <label htmlFor="title">Title</label>
+    return ( <
+      div > {
+        currentTravelPost ? ( <
+          div className = "edit-form" >
+          <
+          h4 > Travel Post < /h4> <
+          form >
+          <
+          div className = "form-group" >
+          <
+          label htmlFor = "title" > Title < /label> <
+          input type = "text"
+          className = "form-control"
+          id = "title"
+          value = {
+            currentTravelPost.title
+          }
+          onChange = {
+            this.onChangeTitle
+          }
+          /> <
+          /div> <
+          div className = "form-group" >
+          <
+          label htmlFor = "description" > Description < /label> <
+          input type = "text"
+          className = "form-control"
+          id = "description"
+          value = {
+            currentTravelPost.description
+          }
+          onChange = {
+            this.onChangeDescription
+          }
+          /> <
+          /div>
+
+          <div className="form-group">
+                <label htmlFor="body">Body</label>
                 <input
                   type="text"
                   className="form-control"
-                  id="title"
-                  value={currentTravelPost.title}
-                  onChange={this.onChangeTitle}
+                  id="body"
+                  value={currentTravelPost.body}
+                  onChange={this.onChangeBody}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="description">Description</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="description"
-                  value={currentTravelPost.description}
-                  onChange={this.onChangeDescription}
-                />
-              </div>
+          <
+          div className = "form-group" >
+          <
+          label >
+          <
+          strong > Status: < /strong> <
+          /label> {
+            currentTravelPost.published ? "Published" : "Pending"
+          } <
+          /div> <
+          /form>
 
-              <div className="form-group">
-                <label>
-                  <strong>Status:</strong>
-                </label>
-                {currentTravelPost.published ? "Published" : "Pending"}
-              </div>
-            </form>
+          {
+            currentTravelPost.published ? ( <
+              button className = "btn btn-outline-primary btn-sm"
+              onClick = {
+                () => this.updatePublished(false)
+              } >
+              UnPublish <
+              /button>
+            ) : ( <
+              button className = "btn btn-outline-primary btn-sm"
+              onClick = {
+                () => this.updatePublished(true)
+              } >
+              Publish <
+              /button>
+            )
+          }
 
-            {currentTravelPost.published ? (
-              <button
-                className="btn btn-outline-primary btn-sm"
-                onClick={() => this.updatePublished(false)}
-              >
-                UnPublish
-              </button>
-            ) : (
-              <button
-                className="btn btn-outline-primary btn-sm"
-                onClick={() => this.updatePublished(true)}
-              >
-                Publish
-              </button>
-            )}
+          <
+          button className = "btn btn-outline-danger btn-sm"
+          onClick = {
+            this.deleteTravelPost
+          } >
+          Delete <
+          /button>
 
-            <button
-              className="btn btn-outline-danger btn-sm"
-              onClick={this.deleteTravelPost}
-            >
-              Delete
-            </button>
-
-            <button
-              type="submit"
-              className="btn btn-outline-warning btn-sm"
-              onClick={this.updateTravelPost}
-            >
-              Update
-            </button>
-            <p>{this.state.message}</p>
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please click on a TravelPost...</p>
-          </div>
-        )}
-      </div>
+          <
+          button type = "submit"
+          className = "btn btn-outline-warning btn-sm"
+          onClick = {
+            this.updateTravelPost
+          } >
+          Update <
+          /button> <
+          p > {
+            this.state.message
+          } < /p> <
+          /div>
+        ) : ( <
+          div >
+          <
+          br / >
+          <
+          p > Please click on a TravelPost... < /p> <
+          /div>
+        )
+      } <
+      /div>
     );
   }
 }

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import TravelPostDataService from "../service/travelpost.service";
 import { Link } from "react-router-dom";
+import AuthService from "../service/auth.service";
 
 export default class TravelPostsList extends Component {
+
   constructor(props) {
     super(props);
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
@@ -16,12 +18,25 @@ export default class TravelPostsList extends Component {
       travelPosts: [],
       currentTravelPost: null,
       currentIndex: -1,
-      searchTitle: ""
+      searchTitle: "",
+      showModeratorBoard: false,
+      showAdminBoard: false,
+      currentUser: undefined,
     };
   }
 
   componentDidMount() {
     this.retrieveTravelPosts();
+      const user = AuthService.getCurrentUser();
+  
+      if (user) {
+        this.setState({
+          currentUser: user,
+          showModeratorBoard: user && user.roles.includes("ROLE_MODERATOR"),
+          showAdminBoard: user && user.roles.includes("ROLE_ADMIN"),
+        });
+    }
+  
   }
 
   onChangeSearchTitle(e) {
@@ -84,8 +99,12 @@ export default class TravelPostsList extends Component {
       });
   }
 
+
+
+
+
   render() {
-    const { searchTitle, travelPosts, currentTravelPost, currentIndex } = this.state;
+    const { searchTitle, travelPosts, currentTravelPost, currentIndex, showAdminBoard, showModeratorBoard, currentUser } = this.state;
 
     return (
       <div className="list row">
@@ -128,12 +147,14 @@ export default class TravelPostsList extends Component {
               ))}
               </ul>
 
+{/* {showAdminBoard && ( */}
 <button
   className="m-3 btn btn-sm btn-danger"
   onClick={this.removeAlltravelPosts}
 >
   Remove All
 </button>
+{/* )} */}
 </div>
 <div className="col-md-6">
 {currentTravelPost ? (
@@ -153,17 +174,28 @@ export default class TravelPostsList extends Component {
               </div>
               <div>
                 <label>
+                  <strong>Body:</strong>
+                </label>{" "}
+                {currentTravelPost.body}
+              </div>
+              <div>
+                <label>
                   <strong>Status:</strong>
                 </label>{" "}
                 {currentTravelPost.published ? "Published" : "Pending"}
               </div>
-
-              <Link
+{/* 
+{
+  currentUser && currentTravelPost.postedBy === currentUser.id && ( */}
+    <Link
                 to={"/travelPosts/" + currentTravelPost.id}
                 className="btn btn-warning"
                 >
                 Edit
               </Link>
+  {/* ) */}
+{/* } */}
+              
             </div>
           ) : (
             <div>
